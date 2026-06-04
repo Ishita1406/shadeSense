@@ -13,10 +13,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -240,
-        400
+        -1200,
+        656
       ],
-      "id": "3eb7a130-84c6-4375-8e75-e0bd426773e7",
+      "id": "2a0839ef-671b-447a-bff4-5be9b0197edd",
       "name": "Webhook1",
       "webhookId": "b65479cc-661d-441d-ae74-b59b90e588b2"
     },
@@ -27,10 +27,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -16,
-        400
+        -976,
+        656
       ],
-      "id": "e4ace7cd-4345-45dd-8785-b28d1d5072d8",
+      "id": "970f9433-f374-4daa-8f91-91381825ad1a",
       "name": "Code in JavaScript"
     },
     {
@@ -42,7 +42,7 @@
           "parameters": [
             {
               "name": "key",
-              "value": "{{env.GOOGLE_API_KEY}}"
+              "value": "{{env.GEMINI_API_KEY}}"
             }
           ]
         },
@@ -54,10 +54,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        176,
-        400
+        -784,
+        656
       ],
-      "id": "e9ba618b-cc51-4093-ae36-2a58b2b71b5c",
+      "id": "1ab698f6-34ee-481b-8eb2-0144c14b8ce6",
       "name": "Feature extraction"
     },
     {
@@ -67,10 +67,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        352,
-        400
+        -608,
+        656
       ],
-      "id": "bd91bd0b-36a9-4a2b-b381-4a12b413f753",
+      "id": "19e573f1-b676-47cb-8270-3e3ce3a39912",
       "name": "Code in JavaScript6"
     },
     {
@@ -81,14 +81,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        384,
-        928
+        -576,
+        1184
       ],
-      "id": "11db99f9-9687-45c0-a3d8-cff4f64e099a",
+      "id": "ed02e9ba-bd95-41f2-8d0e-e6241c17669c",
       "name": "Groq Chat Model",
       "credentials": {
         "groqApi": {
-          "id": "YsYyeeCxAmErBdNk",
+          "id": "eUIOG5LqAzd7X5ED",
           "name": "Groq account"
         }
       }
@@ -102,10 +102,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        624,
-        160
+        -336,
+        416
       ],
-      "id": "94238096-2e02-4591-8a6b-e24afb35dbc2",
+      "id": "2fc928c3-022b-4d75-a33e-91cf90edfc69",
       "name": "Colour Palette Agent"
     },
     {
@@ -117,10 +117,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        624,
-        400
+        -336,
+        656
       ],
-      "id": "fba6fbfa-86aa-4f44-9e3b-e50a64b12ddf",
+      "id": "897dc2b9-1456-477c-886f-f546adbae1b9",
       "name": "Product Match Agent"
     },
     {
@@ -130,10 +130,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        960,
-        400
+        0,
+        656
       ],
-      "id": "11b119fd-bd01-44e4-96c8-bac30a103d6c",
+      "id": "c4e2f8f2-249e-4f28-a659-3a1e9e79e985",
       "name": "Product Parser"
     },
     {
@@ -145,10 +145,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        624,
-        640
+        -336,
+        896
       ],
-      "id": "af16bc4b-33db-47ab-bce4-75606aebe097",
+      "id": "bfbc0db3-855c-4689-a8d8-af1ad2fceaec",
       "name": "MakeUp Placement"
     },
     {
@@ -158,10 +158,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        960,
-        640
+        0,
+        896
       ],
-      "id": "bc489a9d-53a9-42af-ab78-b50b48b98ccb",
+      "id": "fb1aecc6-c3e1-4ae2-be82-da4640155277",
       "name": "Makeup Placement Parser"
     },
     {
@@ -171,10 +171,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        960,
-        160
+        0,
+        416
       ],
-      "id": "bdc81529-8b4f-4810-a0c0-ace6b255b838",
+      "id": "835456c1-0d1b-4085-a82e-47ff0891cbf7",
       "name": "color palette parser"
     },
     {
@@ -186,10 +186,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        1232,
-        304
+        272,
+        560
       ],
-      "id": "1c59fd06-c103-4892-aabe-5f3f254fd061",
+      "id": "9c59ab3e-ef1e-4cc5-a8f7-be32c9ca8e38",
       "name": "Merge3"
     },
     {
@@ -201,25 +201,25 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        1440,
-        496
+        480,
+        752
       ],
-      "id": "a2941e93-67f2-481d-8d4d-6755c587adc5",
+      "id": "5decb849-e903-4b17-a048-50fe93252b61",
       "name": "Merge4"
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You are a professional beauty consultant and final quality reviewer.\n\nUsing all available analysis data:\n\n{{ JSON.stringify($json) }}\n\nGenerate a structured beauty report.\n\nConfidence Scoring Instructions:\n\nConfidence should represent certainty in the beauty recommendations, NOT image quality alone.\n\nWhen determining confidence, consider:\n\n* Reliability of undertone detection\n* Reliability of seasonal color palette assignment\n* Possibility of alternative interpretations\n* Lighting conditions and potential lighting bias\n* Whether the image appears edited, filtered, or studio-lit\n* Strength of evidence supporting product recommendations\n* Consistency between all agent outputs\n\nImportant Rules:\n\n* A clear image alone is NOT sufficient for a confidence score above 90.\n* Scores above 90 should be extremely rare.\n* Most analyses should fall between 60 and 85.\n* If multiple undertones, palettes, or recommendations could reasonably fit, confidence should not exceed 80.\n* For a single uploaded image, confidence should generally remain below 85 unless there is exceptionally strong evidence and minimal ambiguity.\n\nConfidence Scale:\n\n90-100:\nNear-certain analysis with minimal ambiguity and exceptionally strong supporting evidence.\n\n80-89:\nStrong confidence with only minor uncertainty.\n\n60-79:\nModerate confidence. This should be the default range for most analyses.\n\n40-59:\nNoticeable ambiguity or conflicting indicators.\n\n0-39:\nInsufficient information or highly uncertain analysis.\n\nReturn ONLY valid JSON.\n\n{\n\"summary\": \"\",\n\"best_colors\": [],\n\"makeup_recommendations\": [],\n\"product_recommendations\": [],\n\"beauty_tips\": [],\n\"confidence\": 0,\n\"confidence_reason\": \"\",\n\"approval_status\": \"\"\n}\n\nRules:\n\n* confidence must be an integer between 0 and 100.\n* confidence_reason should briefly explain why that confidence score was assigned.\n* approval_status must be:\n\n  * \"AUTO_APPROVED\" if confidence >= 80\n  * \"HUMAN_REVIEW_REQUIRED\" if confidence < 80\n* Return valid JSON only.\n* Do not include markdown.\n* Do not include explanations outside JSON.\n",
+        "text": "=You are a professional beauty consultant and final quality reviewer.\n\nUsing all available analysis data:\n\n{{ JSON.stringify($json) }}\n\nGenerate a structured beauty report.\n\nConfidence Scoring Instructions:\n\nConfidence should represent certainty in the beauty recommendations, NOT image quality alone.\n\nWhen determining confidence, consider:\n\n* Reliability of undertone detection\n* Reliability of seasonal color palette assignment\n* Possibility of alternative interpretations\n* Lighting conditions and potential lighting bias\n* Whether the image appears edited, filtered, or studio-lit\n* Strength of evidence supporting product recommendations\n* Consistency between all agent outputs\n\nImportant Rules:\n\n* A clear image alone is NOT sufficient for a confidence score above 90.\n* Scores above 90 should be extremely rare.\n* Most analyses should fall between 60 and 85.\n* If multiple undertones, palettes, or recommendations could reasonably fit, confidence should not exceed 80.\n* For a single uploaded image, confidence should generally remain below 85 unless there is exceptionally strong evidence and minimal ambiguity.\n\nConfidence Scale:\n\n90-100:\nNear-certain analysis with minimal ambiguity and exceptionally strong supporting evidence.\n\n80-89:\nStrong confidence with only minor uncertainty.\n\n60-79:\nModerate confidence. This should be the default range for most analyses.\n\n40-59:\nNoticeable ambiguity or conflicting indicators.\n\n0-39:\nInsufficient information or highly uncertain analysis.\n\nReturn ONLY valid JSON.\n\n{\n\"summary\": \"\",\n\"best_colors\": [],\n\"makeup_recommendations\": [],\n\"product_recommendations\": [],\n\"beauty_tips\": [],\n\"confidence\": 0,\n\"confidence_reason\": \"\",\n}\n\nRules:\n\n* confidence must be an integer between 0 and 100.\n* confidence_reason should briefly explain why that confidence score was assigned.\n\n* Return valid JSON only.\n* Do not include markdown.\n* Do not include explanations outside JSON.\n",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        1824,
-        496
+        864,
+        752
       ],
-      "id": "baefa0fc-6183-4991-ad65-2569c717392b",
+      "id": "98434886-c655-48f6-95f2-81b9f92fa557",
       "name": "report generate agent"
     },
     {
@@ -229,10 +229,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2128,
-        496
+        1168,
+        752
       ],
-      "id": "1b8699e6-23ed-4253-ac69-02e3c4e94e74",
+      "id": "15a0df55-7793-4557-b16b-e578795248bb",
       "name": "report parser"
     },
     {
@@ -306,10 +306,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1648,
-        496
+        688,
+        752
       ],
-      "id": "7a9ec1a4-991e-4c1d-8425-09ab48ae6a88",
+      "id": "6ebfcd2f-3153-4a53-a250-cb68c260f798",
       "name": "Edit Fields"
     },
     {
@@ -321,10 +321,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        2672,
-        336
+        2720,
+        608
       ],
-      "id": "04627724-ce81-4603-984e-f87fb70ec287",
+      "id": "6b760c8f-dffa-4b95-ad2a-708f241b3de8",
       "name": "Respond to Webhook"
     },
     {
@@ -354,7 +354,8 @@
             "skin_type": "={{ $('Edit Fields').item.json.skin_type }}",
             "season": "={{ $('Edit Fields').item.json.season }}",
             "foundation_family": "={{ $('Edit Fields').item.json.foundation_family }}",
-            "summary": "={{ $json.report.summary }}"
+            "summary": "={{ $json.report.summary }}",
+            "status": "={{ $json.status }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -429,6 +430,16 @@
               "display": true,
               "type": "string",
               "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -439,14 +450,14 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        3136,
-        288
+        1792,
+        608
       ],
-      "id": "c21a7696-0114-4642-999e-3593e271b518",
+      "id": "e588a329-e49e-4792-8074-9ba8c0b65294",
       "name": "Append row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "1Clof8uNPhz2Yc5t",
+          "id": "BHWthgDSV91TggE6",
           "name": "Google Sheets account"
         }
       }
@@ -454,22 +465,28 @@
     {
       "parameters": {
         "sendTo": "ishita.23bcs10188@sst.scaler.com",
-        "subject": "Shade sense review needed",
-        "message": "=<h2>Beauty Analysis Report</h2>\n\n<p><strong>Summary</strong></p>\n<p>{{ $json.report.summary }}</p>\n\n<h3>Best Colors</h3>\n<ul>\n<li>{{ $json.report.best_colors[0] }}</li>\n<li>{{ $json.report.best_colors[1] }}</li>\n<li>{{ $json.report.best_colors[2] }}</li>\n<li>{{ $json.report.best_colors[3] }}</li>\n<li>{{ $json.report.best_colors[4] }}</li>\n</ul>\n\n<h3>Makeup Recommendations</h3>\n<ul>\n<li>{{ $json.report.makeup_recommendations[0] }}</li>\n<li>{{ $json.report.makeup_recommendations[1] }}</li>\n<li>{{ $json.report.makeup_recommendations[2] }}</li>\n<li>{{ $json.report.makeup_recommendations[3] }}</li>\n</ul>\n\n<h3>Product Recommendations</h3>\n<ul>\n<li>{{ $json.report.product_recommendations[0] }}</li>\n<li>{{ $json.report.product_recommendations[1] }}</li>\n<li>{{ $json.report.product_recommendations[2] }}</li>\n</ul>\n\n<h3>Beauty Tips</h3>\n<ul>\n<li>{{ $json.report.beauty_tips[0] }}</li>\n<li>{{ $json.report.beauty_tips[1] }}</li>\n<li>{{ $json.report.beauty_tips[2] }}</li>\n<li>{{ $json.report.beauty_tips[3] }}</li>\n</ul>\n\n<br><br>\n\n<a href=\"http://localhost:5678/webhook/approve-report?rowId={{ $json.reportId }}\"\nstyle=\"background:#28a745;color:white;padding:12px 20px;text-decoration:none;border-radius:6px;\">\nAPPROVE\n</a>\n\n&nbsp;&nbsp;\n\n<a href=\"http://localhost:5678/webhook/reject-report\"\nstyle=\"background:#dc3545;color:white;padding:12px 20px;text-decoration:none;border-radius:6px;\">\nREJECT\n</a>",
-        "options": {}
+        "subject": "ShadeSense Analysis Report",
+        "message": "=<h2>ShadeSense Report Ready</h2>\n\n<p>Hello,</p>\n\n<p>The beauty analysis report has been successfully generated.</p>\n\n<p>Please find the PDF report attached.</p>\n\n<p>\nRegards,<br>\nShadeSense AI\n</p>",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {}
+            ]
+          }
+        }
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        2080,
-        912
+        2480,
+        608
       ],
-      "id": "5a6dd954-edce-405c-aa7c-7e1b9f781ecb",
+      "id": "259a4ff4-7848-4d60-81be-484c4c1f62ab",
       "name": "Send a message",
       "webhookId": "b644b895-4baf-4e47-b430-6fbcd93fe83f",
       "credentials": {
         "gmailOAuth2": {
-          "id": "ojwWbIc9NmRahPxa",
+          "id": "kALIDHN1b6UM9Bpz",
           "name": "Gmail account"
         }
       }
@@ -487,7 +504,7 @@
             {
               "id": "8e1b3f60-ecee-493d-b03e-f9d03533d4cd",
               "leftValue": "={{ $json.report.confidence }}",
-              "rightValue": 80,
+              "rightValue": 70,
               "operator": {
                 "type": "number",
                 "operation": "gte"
@@ -501,10 +518,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2336,
-        496
+        1376,
+        752
       ],
-      "id": "08d1e396-af24-438d-9f93-c956e2e83379",
+      "id": "a484ea8e-6e7d-4398-95e6-6832765d26e3",
       "name": "If"
     },
     {
@@ -512,21 +529,9 @@
         "assignments": {
           "assignments": [
             {
-              "id": "40bcf26a-4a5e-46de-a9e7-512b5a4a04ef",
+              "id": "08042d78-a2ac-4711-b707-5ea2ca1403f1",
               "name": "status",
-              "value": "={{ $json.status }}",
-              "type": "string"
-            },
-            {
-              "id": "ab36f645-610d-48a9-939c-a00f3b14a7b7",
-              "name": "report.confidence_reason",
-              "value": "={{ $json.report.confidence_reason }}",
-              "type": "string"
-            },
-            {
-              "id": "30e17ce0-0e49-49a1-8263-ed33d0ad7473",
-              "name": "report.approval_status",
-              "value": "={{ $json.report.approval_status }}",
+              "value": "Approved",
               "type": "string"
             }
           ]
@@ -538,47 +543,217 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2544,
-        592
+        1616,
+        608
       ],
-      "id": "ce1eb8fb-d047-4371-9730-950571f958b7",
+      "id": "74efc1e1-64cd-4b1c-9d2f-533247a65769",
       "name": "Edit Fields1"
     },
     {
       "parameters": {
-        "formFields": {
-          "values": [
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1mOnLJMIP-3qo4nmFo4_6pIw9OvOhnwKvU9upf2lBE8M",
+          "mode": "list",
+          "cachedResultName": "ShadeSense",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mOnLJMIP-3qo4nmFo4_6pIw9OvOhnwKvU9upf2lBE8M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mOnLJMIP-3qo4nmFo4_6pIw9OvOhnwKvU9upf2lBE8M/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.generatedAt }}",
+            "skin_tone": "={{ $('Edit Fields').item.json.skin_tone }}",
+            "undertone": "={{ $('Edit Fields').item.json.undertone }}",
+            "face_shape": "={{ $('Edit Fields').item.json.face_shape }}",
+            "skin_type": "={{ $('Edit Fields').item.json.skin_type }}",
+            "season": "={{ $('Edit Fields').item.json.season }}",
+            "foundation_family": "={{ $('Edit Fields').item.json.foundation_family }}",
+            "summary": "={{ $json.report.summary }}",
+            "status": "={{ $('report parser').item.json.status }}"
+          },
+          "matchingColumns": [],
+          "schema": [
             {
-              "fieldLabel": "Decision",
-              "fieldType": "dropdown",
-              "fieldOptions": {
-                "values": [
-                  {
-                    "option": "Approve"
-                  },
-                  {
-                    "option": "Reject"
-                  }
-                ]
-              }
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
             },
             {
-              "fieldLabel": "Cooments",
-              "fieldType": "textarea"
+              "id": "skin_tone",
+              "displayName": "skin_tone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "undertone",
+              "displayName": "undertone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "face_shape",
+              "displayName": "face_shape",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "skin_type",
+              "displayName": "skin_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "season",
+              "displayName": "season",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "foundation_family",
+              "displayName": "foundation_family",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "summary",
+              "displayName": "summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
             }
-          ]
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.form",
-      "typeVersion": 2.5,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
       "position": [
-        2752,
-        592
+        1616,
+        768
       ],
-      "id": "69a1a8ae-76a7-4efc-9f7d-3427b9503a04",
-      "name": "Form",
-      "webhookId": "9e708d08-4903-47ac-91f2-5c25933e4c3c"
+      "id": "c6b99ae1-96d8-47c6-a19c-ad9f7061f104",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "BHWthgDSV91TggE6",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "html": "={{ $json.html }}",
+        "additionalOptions": {}
+      },
+      "type": "n8n-nodes-pdfbolt.pdfBolt",
+      "typeVersion": 1,
+      "position": [
+        2272,
+        608
+      ],
+      "id": "6d0d5f1e-2fa8-446c-b83d-5bff23184043",
+      "name": "PDFBolt",
+      "credentials": {
+        "pdfBoltApi": {
+          "id": "vDFISq6n2QRfbfwT",
+          "name": "PDFBolt account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const report = $('report parser').first().json.report\nconst html = `\n<html>\n<head>\n<style>\nbody{\n  font-family: 'Segoe UI', sans-serif;\n  background:#f5f5dc;\n  color:#4a4a4a;\n  padding:40px;\n  line-height:1.7;\n}\n.header{\n  text-align:center;\n  padding:25px;\n  border-radius:20px;\n  background:linear-gradient(\n      135deg,\n      #b5ead7,\n      #c7ceea\n  );\n  margin-bottom:30px;\n}\n.header h1{\n  margin:0;\n  color:#6b7fa3;\n  font-size:34px;\n}\n.header p{\n  color:#6b6b6b;\n}\n.card{\n  background:white;\n  padding:20px;\n  border-radius:18px;\n  margin-bottom:20px;\n  box-shadow:0 3px 10px rgba(0,0,0,0.08);\n}\nh2{\n  color:#a29bbd;\n  margin-bottom:10px;\n}\nul{\n  padding-left:20px;\n}\nli{\n  margin-bottom:8px;\n}\n.tag{\n  display:inline-block;\n  background:#ffdac1;\n  color:#a07860;\n  padding:8px 14px;\n  margin:4px;\n  border-radius:20px;\n  font-size:14px;\n}\n.confidence{\n  background:#e2f0cb;\n  border-left:6px solid #b5d99c;\n  padding:15px;\n  border-radius:10px;\n}\n.footer{\n  margin-top:30px;\n  text-align:center;\n  color:#888;\n  font-size:12px;\n}\n</style>\n</head>\n<body>\n<div class=\"header\">\n<h1>✨ ShadeSense Beauty Report ✨</h1>\n<p>Personalized AI Beauty Analysis</p>\n</div>\n<div class=\"card\">\n<h2>📝 Summary</h2>\n<p>${report.summary}</p>\n</div>\n<div class=\"card\">\n<h2>🎨 Best Colors</h2>\n${report.best_colors.map(\nc => `<span class=\"tag\">${c}</span>`\n).join('')}\n</div>\n<div class=\"card\">\n<h2>💄 Makeup Recommendations</h2>\n<ul>\n${report.makeup_recommendations.map(\nc => `<li>${c}</li>`\n).join('')}\n</ul>\n</div>\n<div class=\"card\">\n<h2>🛍 Product Recommendations</h2>\n<ul>\n${report.product_recommendations.map(\nc => `<li>${c}</li>`\n).join('')}\n</ul>\n</div>\n<div class=\"card\">\n<h2>🌸 Beauty Tips</h2>\n<ul>\n${report.beauty_tips.map(\nc => `<li>${c}</li>`\n).join('')}\n</ul>\n</div>\n<div class=\"card confidence\">\n<h2>📊 Confidence Analysis</h2>\n<p>\n<b>Confidence Score:</b>\n${report.confidence}%\n</p>\n<p>\n${report.confidence_reason}\n</p>\n</div>\n<div class=\"footer\">\nGenerated by ShadeSense AI • Personalized Beauty Intelligence\n</div>\n</body>\n</html>\n`;\nreturn [{\n  json:{\n    ...$json,\n    html\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        608
+      ],
+      "id": "d69b756b-beef-4d90-b908-ddb3f2600781",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "sendTo": "ishita.23bcs10188@sst.scaler.com",
+        "subject": "ShadeSense Review Required",
+        "message": "=<h2>Human Review Required</h2>\n\n<p>\nThe generated beauty analysis could not be automatically approved.\n</p>\n\n<p>\n<b>Confidence Score:</b>{{ $('report parser').item.json.report.confidence }}\n\n</p>\n\n<p>\n<b>Reason:</b><br>\n{{ $('report parser').item.json.report.confidence_reason }}\n</p>\n\n<hr>\n\n<p>\n<b>Analysis Summary</b>\n</p>\n\n<p>\n{{ $('report parser').item.json.report.summary }}\n</p>\n\n<hr>\n\n<p>\nPlease review the report before sending recommendations to the user.\n</p>\n\n<p>\nStatus:\n<b>PENDING_REVIEW</b>\n</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1824,
+        784
+      ],
+      "id": "aa664a92-5cf2-4670-8ae7-4b42b153e4d9",
+      "name": "Send a message1",
+      "webhookId": "b644b895-4baf-4e47-b430-6fbcd93fe83f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "kALIDHN1b6UM9Bpz",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": true,\n  \"status\": \"PENDING_REVIEW\",\n  \"confidence\":{{ $('report parser').item.json.report.confidence }} ,\n  \"message\": \"Human review required\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        2224,
+        832
+      ],
+      "id": "2d8f7b8d-d15a-45c4-820e-cbccf8563783",
+      "name": "Respond to Webhook1"
     }
   ],
   "pinData": {},
@@ -784,23 +959,18 @@
         ]
       ]
     },
-    "Respond to Webhook": {
-      "main": [
-        []
-      ]
-    },
     "If": {
       "main": [
         [
           {
-            "node": "Respond to Webhook",
+            "node": "Edit Fields1",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Edit Fields1",
+            "node": "Append row in sheet1",
             "type": "main",
             "index": 0
           }
@@ -811,7 +981,73 @@
       "main": [
         [
           {
-            "node": "Form",
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "PDFBolt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PDFBolt": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
             "type": "main",
             "index": 0
           }
@@ -819,17 +1055,17 @@
       ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "63e1d62a-da67-4f49-816f-f7c7edfa95e0",
+  "versionId": "85834d88-6528-42b7-a0ef-86c436012a63",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "0b9d5b1dda9288c49f5cac7fe7ad99af2a546fc0e16110a17723babe0613aec3"
+    "instanceId": "af2b21de68386f9186f2f300130e6b101c1735bad5a4cacc3d0c7f6c21070816"
   },
   "nodeGroups": [],
-  "id": "7GMBz6LUJcOyK076",
+  "id": "CmpjTQaykSj6s5PI",
   "tags": []
 }
