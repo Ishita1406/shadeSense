@@ -1,0 +1,835 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "beauty-analysis",
+        "responseMode": "responseNode",
+        "options": {
+          "binaryPropertyName": "image"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -240,
+        400
+      ],
+      "id": "3eb7a130-84c6-4375-8e75-e0bd426773e7",
+      "name": "Webhook1",
+      "webhookId": "b65479cc-661d-441d-ae74-b59b90e588b2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first();\n\nconst binaryData = await this.helpers.getBinaryDataBuffer(0, 'image0');\n\nreturn [{\n  json: {\n    mimeType: item.binary.image0.mimeType,\n    imageBase64: binaryData.toString('base64')\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        400
+      ],
+      "id": "e4ace7cd-4345-45dd-8785-b28d1d5072d8",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "{{env.GOOGLE_API_KEY}}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"Analyze this face image. Return ONLY valid JSON. No markdown. No explanations. Schema: {\\\"skin_tone\\\":\\\"\\\",\\\"undertone\\\":\\\"\\\",\\\"face_shape\\\":\\\"\\\",\\\"skin_type\\\":\\\"\\\",\\\"visible_features\\\":[],\\\"confidence\\\":0.0}\"\n        },\n        {\n          \"inline_data\": {\n            \"mime_type\": \"{{$json.mimeType}}\",\n            \"data\": \"{{$json.imageBase64}}\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        176,
+        400
+      ],
+      "id": "e9ba618b-cc51-4093-ae36-2a58b2b71b5c",
+      "name": "Feature extraction"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text =\n$input.first().json.candidates[0].content.parts[0].text;\n\nreturn [{\n  json: JSON.parse(text)\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        352,
+        400
+      ],
+      "id": "bd91bd0b-36a9-4a2b-b381-4a12b413f753",
+      "name": "Code in JavaScript6"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        384,
+        928
+      ],
+      "id": "11db99f9-9687-45c0-a3d8-cff4f64e099a",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "YsYyeeCxAmErBdNk",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a professional color analyst.\n\nAnalyze the following beauty profile:\n\n{{ JSON.stringify($json) }}\n\nReturn ONLY valid JSON.\n\n{\n  \"season\": \"\",\n  \"recommended_colors\": [],\n  \"avoid_colors\": []\n}\n\nDo not include markdown.\nDo not explain.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        624,
+        160
+      ],
+      "id": "94238096-2e02-4591-8a6b-e24afb35dbc2",
+      "name": "Colour Palette Agent"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a professional beauty product recommender.\n\nUser profile:\n\n{{ JSON.stringify($json) }}\n\nReturn ONLY valid JSON.\n\n{\n  \"foundation_family\": \"\",\n  \"concealer_family\": \"\",\n  \"blush_family\": \"\",\n  \"lipstick_family\": \"\",\n  \"recommended_products\": [\n    {\n      \"type\": \"\",\n      \"shade\": \"\",\n      \"reason\": \"\"\n    }\n  ]\n}\n\nNo markdown.\nNo explanations.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        624,
+        400
+      ],
+      "id": "fba6fbfa-86aa-4f44-9e3b-e50a64b12ddf",
+      "name": "Product Match Agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "const product = JSON.parse($json.output);\n\nreturn [{\n  json: {\n    ...$('Code in JavaScript6').first().json,\n    ...product\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        400
+      ],
+      "id": "11b119fd-bd01-44e4-96c8-bac30a103d6c",
+      "name": "Product Parser"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a professional makeup artist.\n\nUser profile:\n\n{{ JSON.stringify($json) }}\n\nReturn ONLY valid JSON.\n\n{\n  \"placement\": {\n    \"blush\": \"\",\n    \"bronzer\": \"\",\n    \"contour\": \"\",\n    \"highlighter\": \"\"\n  },\n  \"tips\": []\n}\n\nNo markdown.\nNo explanations.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        624,
+        640
+      ],
+      "id": "af16bc4b-33db-47ab-bce4-75606aebe097",
+      "name": "MakeUp Placement"
+    },
+    {
+      "parameters": {
+        "jsCode": "const makeup = JSON.parse($json.output);\n\nreturn [{\n  json: {\n    ...$('Code in JavaScript6').first().json,\n    ...makeup\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        640
+      ],
+      "id": "bc489a9d-53a9-42af-ab78-b50b48b98ccb",
+      "name": "Makeup Placement Parser"
+    },
+    {
+      "parameters": {
+        "jsCode": "const palette = JSON.parse($json.output);\n\nreturn [{\n  json: {\n    ...$('Code in JavaScript6').first().json,\n    ...palette\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        160
+      ],
+      "id": "bdc81529-8b4f-4810-a0c0-ace6b255b838",
+      "name": "color palette parser"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1232,
+        304
+      ],
+      "id": "1c59fd06-c103-4892-aabe-5f3f254fd061",
+      "name": "Merge3"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1440,
+        496
+      ],
+      "id": "a2941e93-67f2-481d-8d4d-6755c587adc5",
+      "name": "Merge4"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a professional beauty consultant and final quality reviewer.\n\nUsing all available analysis data:\n\n{{ JSON.stringify($json) }}\n\nGenerate a structured beauty report.\n\nConfidence Scoring Instructions:\n\nConfidence should represent certainty in the beauty recommendations, NOT image quality alone.\n\nWhen determining confidence, consider:\n\n* Reliability of undertone detection\n* Reliability of seasonal color palette assignment\n* Possibility of alternative interpretations\n* Lighting conditions and potential lighting bias\n* Whether the image appears edited, filtered, or studio-lit\n* Strength of evidence supporting product recommendations\n* Consistency between all agent outputs\n\nImportant Rules:\n\n* A clear image alone is NOT sufficient for a confidence score above 90.\n* Scores above 90 should be extremely rare.\n* Most analyses should fall between 60 and 85.\n* If multiple undertones, palettes, or recommendations could reasonably fit, confidence should not exceed 80.\n* For a single uploaded image, confidence should generally remain below 85 unless there is exceptionally strong evidence and minimal ambiguity.\n\nConfidence Scale:\n\n90-100:\nNear-certain analysis with minimal ambiguity and exceptionally strong supporting evidence.\n\n80-89:\nStrong confidence with only minor uncertainty.\n\n60-79:\nModerate confidence. This should be the default range for most analyses.\n\n40-59:\nNoticeable ambiguity or conflicting indicators.\n\n0-39:\nInsufficient information or highly uncertain analysis.\n\nReturn ONLY valid JSON.\n\n{\n\"summary\": \"\",\n\"best_colors\": [],\n\"makeup_recommendations\": [],\n\"product_recommendations\": [],\n\"beauty_tips\": [],\n\"confidence\": 0,\n\"confidence_reason\": \"\",\n\"approval_status\": \"\"\n}\n\nRules:\n\n* confidence must be an integer between 0 and 100.\n* confidence_reason should briefly explain why that confidence score was assigned.\n* approval_status must be:\n\n  * \"AUTO_APPROVED\" if confidence >= 80\n  * \"HUMAN_REVIEW_REQUIRED\" if confidence < 80\n* Return valid JSON only.\n* Do not include markdown.\n* Do not include explanations outside JSON.\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1824,
+        496
+      ],
+      "id": "baefa0fc-6183-4991-ad65-2569c717392b",
+      "name": "report generate agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "let text = $input.first().json.output;\n\n// Remove markdown fences\ntext = text.replace(/```json/g, '');\ntext = text.replace(/```/g, '');\ntext = text.trim();\n\nconst reportId = Date.now().toString();\n\nreturn [\n  {\n    json: {\n      success: true,\n      generatedAt: new Date().toISOString(),\n      reportId,\n      status: \"Pending\",\n      report: JSON.parse(text)\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2128,
+        496
+      ],
+      "id": "1b8699e6-23ed-4253-ac69-02e3c4e94e74",
+      "name": "report parser"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f482f663-56fb-453f-835e-d2e240045baf",
+              "name": "season",
+              "value": "={{ $json.season }}",
+              "type": "string"
+            },
+            {
+              "id": "9218bea9-d664-494d-93f2-d5fc31b879ac",
+              "name": "recommended_colors",
+              "value": "={{ $json.recommended_colors }}",
+              "type": "array"
+            },
+            {
+              "id": "c3c5871a-947d-4f67-90ad-ff399a223eac",
+              "name": "foundation_family",
+              "value": "={{ $json.foundation_family }}",
+              "type": "string"
+            },
+            {
+              "id": "2dda55f7-645e-4fcc-8834-0aae8c561caf",
+              "name": "blush_family",
+              "value": "={{ $json.blush_family }}",
+              "type": "string"
+            },
+            {
+              "id": "43f4ec76-2a8d-4d00-8deb-3a8a67c9bc8a",
+              "name": "lipstick_family",
+              "value": "={{ $json.lipstick_family }}",
+              "type": "string"
+            },
+            {
+              "id": "3453e9f7-546b-4e4a-86a5-90ff9ff1bb17",
+              "name": "placement",
+              "value": "={{ $json.placement }}",
+              "type": "object"
+            },
+            {
+              "id": "9b632dae-df1b-4984-88a2-dcc3dabe0bfe",
+              "name": "skin_tone",
+              "value": "={{ $json.skin_tone }}",
+              "type": "string"
+            },
+            {
+              "id": "dc3495a7-0fc9-4d6f-80b3-0f5352d22b3f",
+              "name": "undertone",
+              "value": "={{ $json.undertone }}",
+              "type": "string"
+            },
+            {
+              "id": "6e6e9e66-ca4b-4073-8ca7-bc53f387e98e",
+              "name": "face_shape",
+              "value": "={{ $json.face_shape }}",
+              "type": "string"
+            },
+            {
+              "id": "c32151be-a9f2-44d9-a5b8-8f80d8269580",
+              "name": "skin_type",
+              "value": "={{ $json.skin_type }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1648,
+        496
+      ],
+      "id": "7a9ec1a4-991e-4c1d-8425-09ab48ae6a88",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        2672,
+        336
+      ],
+      "id": "04627724-ce81-4603-984e-f87fb70ec287",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1mOnLJMIP-3qo4nmFo4_6pIw9OvOhnwKvU9upf2lBE8M",
+          "mode": "list",
+          "cachedResultName": "ShadeSense",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mOnLJMIP-3qo4nmFo4_6pIw9OvOhnwKvU9upf2lBE8M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mOnLJMIP-3qo4nmFo4_6pIw9OvOhnwKvU9upf2lBE8M/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.generatedAt }}",
+            "skin_tone": "={{ $('Edit Fields').item.json.skin_tone }}",
+            "undertone": "={{ $('Edit Fields').item.json.undertone }}",
+            "face_shape": "={{ $('Edit Fields').item.json.face_shape }}",
+            "skin_type": "={{ $('Edit Fields').item.json.skin_type }}",
+            "season": "={{ $('Edit Fields').item.json.season }}",
+            "foundation_family": "={{ $('Edit Fields').item.json.foundation_family }}",
+            "summary": "={{ $json.report.summary }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "skin_tone",
+              "displayName": "skin_tone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "undertone",
+              "displayName": "undertone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "face_shape",
+              "displayName": "face_shape",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "skin_type",
+              "displayName": "skin_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "season",
+              "displayName": "season",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "foundation_family",
+              "displayName": "foundation_family",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "summary",
+              "displayName": "summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3136,
+        288
+      ],
+      "id": "c21a7696-0114-4642-999e-3593e271b518",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1Clof8uNPhz2Yc5t",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "ishita.23bcs10188@sst.scaler.com",
+        "subject": "Shade sense review needed",
+        "message": "=<h2>Beauty Analysis Report</h2>\n\n<p><strong>Summary</strong></p>\n<p>{{ $json.report.summary }}</p>\n\n<h3>Best Colors</h3>\n<ul>\n<li>{{ $json.report.best_colors[0] }}</li>\n<li>{{ $json.report.best_colors[1] }}</li>\n<li>{{ $json.report.best_colors[2] }}</li>\n<li>{{ $json.report.best_colors[3] }}</li>\n<li>{{ $json.report.best_colors[4] }}</li>\n</ul>\n\n<h3>Makeup Recommendations</h3>\n<ul>\n<li>{{ $json.report.makeup_recommendations[0] }}</li>\n<li>{{ $json.report.makeup_recommendations[1] }}</li>\n<li>{{ $json.report.makeup_recommendations[2] }}</li>\n<li>{{ $json.report.makeup_recommendations[3] }}</li>\n</ul>\n\n<h3>Product Recommendations</h3>\n<ul>\n<li>{{ $json.report.product_recommendations[0] }}</li>\n<li>{{ $json.report.product_recommendations[1] }}</li>\n<li>{{ $json.report.product_recommendations[2] }}</li>\n</ul>\n\n<h3>Beauty Tips</h3>\n<ul>\n<li>{{ $json.report.beauty_tips[0] }}</li>\n<li>{{ $json.report.beauty_tips[1] }}</li>\n<li>{{ $json.report.beauty_tips[2] }}</li>\n<li>{{ $json.report.beauty_tips[3] }}</li>\n</ul>\n\n<br><br>\n\n<a href=\"http://localhost:5678/webhook/approve-report?rowId={{ $json.reportId }}\"\nstyle=\"background:#28a745;color:white;padding:12px 20px;text-decoration:none;border-radius:6px;\">\nAPPROVE\n</a>\n\n&nbsp;&nbsp;\n\n<a href=\"http://localhost:5678/webhook/reject-report\"\nstyle=\"background:#dc3545;color:white;padding:12px 20px;text-decoration:none;border-radius:6px;\">\nREJECT\n</a>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2080,
+        912
+      ],
+      "id": "5a6dd954-edce-405c-aa7c-7e1b9f781ecb",
+      "name": "Send a message",
+      "webhookId": "b644b895-4baf-4e47-b430-6fbcd93fe83f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ojwWbIc9NmRahPxa",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8e1b3f60-ecee-493d-b03e-f9d03533d4cd",
+              "leftValue": "={{ $json.report.confidence }}",
+              "rightValue": 80,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2336,
+        496
+      ],
+      "id": "08d1e396-af24-438d-9f93-c956e2e83379",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "40bcf26a-4a5e-46de-a9e7-512b5a4a04ef",
+              "name": "status",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            },
+            {
+              "id": "ab36f645-610d-48a9-939c-a00f3b14a7b7",
+              "name": "report.confidence_reason",
+              "value": "={{ $json.report.confidence_reason }}",
+              "type": "string"
+            },
+            {
+              "id": "30e17ce0-0e49-49a1-8263-ed33d0ad7473",
+              "name": "report.approval_status",
+              "value": "={{ $json.report.approval_status }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "include": "=all",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2544,
+        592
+      ],
+      "id": "ce1eb8fb-d047-4371-9730-950571f958b7",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Decision",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Approve"
+                  },
+                  {
+                    "option": "Reject"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Cooments",
+              "fieldType": "textarea"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        2752,
+        592
+      ],
+      "id": "69a1a8ae-76a7-4efc-9f7d-3427b9503a04",
+      "name": "Form",
+      "webhookId": "9e708d08-4903-47ac-91f2-5c25933e4c3c"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Feature extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Feature extraction": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript6": {
+      "main": [
+        [
+          {
+            "node": "Colour Palette Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Product Match Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "MakeUp Placement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Colour Palette Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Product Match Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "MakeUp Placement",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "report generate agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Colour Palette Agent": {
+      "main": [
+        [
+          {
+            "node": "color palette parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Product Match Agent": {
+      "main": [
+        [
+          {
+            "node": "Product Parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MakeUp Placement": {
+      "main": [
+        [
+          {
+            "node": "Makeup Placement Parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "color palette parser": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Product Parser": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Makeup Placement Parser": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "report generate agent": {
+      "main": [
+        [
+          {
+            "node": "report parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "report generate agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "report parser": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "63e1d62a-da67-4f49-816f-f7c7edfa95e0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0b9d5b1dda9288c49f5cac7fe7ad99af2a546fc0e16110a17723babe0613aec3"
+  },
+  "nodeGroups": [],
+  "id": "7GMBz6LUJcOyK076",
+  "tags": []
+}
